@@ -9,13 +9,13 @@ KaggleのDogs vs Catsを元に7種類のポテトチップスを見分けるモ�
 * Confusion Matrix
 
 ## 環境
-***
+
 * python 3.8.5
 * Google Colaboratory
 * Dataset: 枚、コンソメパンチ枚、うすしお枚、しあわせバター枚、のりしお枚、九州醤油枚、
 
 ## 構造
-***
+
 
 ```
 potatochips_image_classification.py
