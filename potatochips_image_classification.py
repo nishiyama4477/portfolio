@@ -190,7 +190,7 @@ history = model.fit(
 # 重みを保存
 model.save_weights("xception_adam_model.h5")
 
-
+# Visualize Training 
 fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 12))
 ax1.plot(history.history['loss'], color='b', label="Training loss")
 ax1.plot(history.history['val_loss'], color='r', label="validation loss")
@@ -205,6 +205,7 @@ legend = plt.legend(loc='best', shadow=True)
 plt.tight_layout()
 plt.show()
 
+# Generating Test Data
 test_filenames = os.listdir("./test_data")
 test_labels = []
 for test_filename in test_filenames:
@@ -239,7 +240,7 @@ test_df
 label_map = dict((v, k) for k, v in train_generator.class_indices.items())
 test_df['category'] = test_df['category'].replace(label_map)
 test_df
-py
+
 test_df['category'].value_counts().plot.bar()
 
 # Confusion matrix
