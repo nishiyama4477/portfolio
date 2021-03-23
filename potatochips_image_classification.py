@@ -239,7 +239,7 @@ test_df
 label_map = dict((v, k) for k, v in train_generator.class_indices.items())
 test_df['category'] = test_df['category'].replace(label_map)
 test_df
-
+py
 test_df['category'].value_counts().plot.bar()
 
 # Confusion matrix
