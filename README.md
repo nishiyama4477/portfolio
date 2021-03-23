@@ -12,7 +12,7 @@ KaggleのDogs vs Catsを元に7種類のポテトチップスを見分けるモ�
 
 * python 3.8.5
 * Google Colaboratory
-* Dataset: 枚、コンソメパンチ枚、うすしお枚、しあわせバター枚、のりしお枚、九州醤油枚、
+* Dataset: 合計1573枚、コンソメパンチ234枚、うすしお235枚、しあわせバター205枚、のりしお251枚、のり塩パンチ220枚、九州醤油211枚、醤油マヨ217枚
 
 ## フォルダ構造
 
@@ -29,4 +29,8 @@ potatochips_image_classification.py
 
 ## 実行
 
+potatosihps_image_classification.pyをGoogle Colaboratory などで実行して下さい
+
 ## 参考
+
+
