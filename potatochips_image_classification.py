@@ -1,26 +1,27 @@
-# driveファイルをマウントする
+# Mount
 from google.colab import drive
 drive.mount('/content/drive')
 
-# drive/MyDriveにあるpotato-chips.zipを解凍する
+# Unzip potato-chips.zip
 !unzip "drive/MyDrive/potato-chips.zip"
 
-# potato-chipsを入れるディレクトリを作る
+# Creating Directory for potato-chips Images
 !mkdir raw_data
 
-# potato-chipsをraw_dataに入れる
+# Put data in Directory
 !for d in $(ls -d potato-chips/* | grep "/"); do for f in $(ls -1F ${d}/* | xargs -i basename {}); do cp -f "${d}"/$f raw_data/"${d#*/}.${f}"; done; done
 
-# 枚数を確認
+# See the amount of data
 !ls raw_data / * | wc - l
 !for d in $(ls -d potato-chips / * | grep "/"); do for f in $(ls ${d} / * | wc -l);do echo "${d#*/}:${f}";done;done
 
-# training_dataとtest_dataを消す。
+# Delete Train Data and Test Data
 !rm - rf
 train_data
 !rm - rf
 test_data
-# training_dataとtest_dataを作る
+
+# Creating Train Data and Test Data
 !mkdir
 train_data
 !mkdir
@@ -28,7 +29,7 @@ test_data
 
 !cp - f
 raw_data / * train_data
-RAND_REPRO = False  # ここをFlaseにすると新たにランダム抽出する。Trueにするとtest_data_list.csvに記載されているファイルを抽出する。
+RAND_REPRO = False  # If False, Create New Test Data Randomly. If True, take file in test_data_list.csv
 if RAND_REPRO:
     !while read file_name; do mv./ train_data / ${file_name}./ test_data; done < Xception_version1_test.csv
 else:
@@ -39,11 +40,11 @@ test_data_list.csv
 1 > test_data_list.csv
 !ls - 1. / test_data
 
-# train_dataとtest_dataの枚数を確認
+# See the number of Train Data and Test Data
 !ls train_data/* | wc -l
 !ls test_data/* | wc -l
 
-# モジュールのインポート
+# Import Modules
 import numpy as np
 import pandas as pd
 from keras.preprocessing.image import ImageDataGenerator, load_img
@@ -53,14 +54,14 @@ import matplotlib.pyplot as plt
 import random
 import os
 
-# 定数を定義
+# Define Constant
 FAST_RUN = False
 IMAGE_WIDTH=192
 IMAGE_HEIGHT=256
 IMAGE_SIZE=(IMAGE_WIDTH, IMAGE_HEIGHT)
 IMAGE_CHANNELS=3
 
-# それぞれのデータにレベル付け
+# Add labels to each category
 filenames = os.listdir("./train_data")
 categories = []
 for filename in filenames:
@@ -72,21 +73,18 @@ df = pd.DataFrame({
     'category': categories
 })
 
-# dfの確認
+# See df
 df
 
-# それぞれの枚数の確認
+# See Total in Count
 df['category'].value_counts().plot.bar()
 
-# モデルに使うモジュールのインポート
+# Build Model
 from keras.models import Sequential, Model
 from keras.layers import Conv2D, MaxPooling2D, Dropout, Flatten, Dense, Activation, BatchNormalization
-
-# Xception用
 from keras.applications.xception import Xception
 from keras.layers.pooling import GlobalAveragePooling2D
 
-# モデルの作成
 xception=Xception(input_shape = (IMAGE_WIDTH, IMAGE_HEIGHT, IMAGE_CHANNELS),include_top=False,weights='imagenet')
 x = xception.output
 x = GlobalAveragePooling2D()(x)
@@ -94,7 +92,7 @@ x = Dense(1024, activation = 'relu')(x)
 predictions = Dense(7, activation = 'softmax')(x)
 model = Model(inputs = xception.input, outputs = predictions)
 
-# 転移モデル(Xception)の層を凍結する
+# Freeze the layers of Xception model expect batch normalization
 for layer in model.layers:
     layer.trainable = False
 
@@ -103,46 +101,46 @@ for layer in model.layers:
     if layer.name.endswith('bn'):
         layer.trainable = True
 
- # optimizer、loss、metricsを指定
- model.compile(
+model.compile(
     optimizer = 'adam',
     loss = 'categorical_crossentropy',
     metrics = ["accuracy"]
 )
 
-# modelを確認
 model.summary()
 
+# Define EarlyStopping and ReduceLPOnPlateau
 from keras.callbacks import EarlyStopping, ReduceLROnPlateau
 
 earlystop = EarlyStopping(monitor = 'val_loss',
                           patience = 10,
                           verbose = 1)
 
-# 学習率をどう調整するかを定義
 learning_rate_reduction = ReduceLROnPlateau(monitor = 'val_loss',
                                             factor = 0.1,
                                             patience = 3,
                                             verbose = 1,
                                             min_lr=0.00001)
-# callbacks関数を定義
+
 callbacks = [earlystop, learning_rate_reduction]
 
-# trainとvalidateを作る
+# Split df to Train and Validate Data
 train_df, validate_df = train_test_split(df, test_size=0.20, random_state=42)
 train_df = train_df.reset_index(drop=True)
 validate_df = validate_df.reset_index(drop=True)
 train_df
 
-# trainデータ、validateデータの種類ごとの割合を確認
+# See Train
 train_df['category'].value_counts().plot.bar()
+
+#See Validation
 validate_df['category'].value_counts().plot.bar()
 
 total_train = train_df.shape[0]
 total_validate = validate_df.shape[0]
 batch_size=32
 
-# Data Augmentation validateには適用しない
+# Data Augmentation
 train_datagen = ImageDataGenerator(
     rotation_range=15,
     rescale=1./255,
@@ -153,6 +151,7 @@ train_datagen = ImageDataGenerator(
     height_shift_range=0.1
 )
 
+# Creating Train Data
 train_generator = train_datagen.flow_from_dataframe(
     train_df,
     "./train_data/",
@@ -163,6 +162,7 @@ train_generator = train_datagen.flow_from_dataframe(
     batch_size=batch_size
 )
 
+# Creating Validate Data
 validation_datagen = ImageDataGenerator(rescale=1./255)
 validation_generator = validation_datagen.flow_from_dataframe(
     validate_df,
@@ -174,7 +174,7 @@ validation_generator = validation_datagen.flow_from_dataframe(
     batch_size=batch_size
 )
 
-# 学習させる
+# Training
 epochs=3 if FAST_RUN else 50
 history = model.fit(
     train_generator,
@@ -187,7 +187,7 @@ history = model.fit(
     verbose= 1
 )
 
-# 重みを保存
+# Save Weights
 model.save_weights("xception_adam_model.h5")
 
 # Visualize Training 
