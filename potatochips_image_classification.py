@@ -205,7 +205,7 @@ legend = plt.legend(loc='best', shadow=True)
 plt.tight_layout()
 plt.show()
 
-# Generating Test Data
+# Preparing Test Data
 test_filenames = os.listdir("./test_data")
 test_labels = []
 for test_filename in test_filenames:
@@ -218,7 +218,7 @@ test_df = pd.DataFrame({
 })
 nb_samples = test_df.shape[0]
 
-# テストデータを作る
+# Generate Test Data
 test_gen = ImageDataGenerator(rescale=1./255)
 test_generator = test_gen.flow_from_dataframe(
     test_df,
@@ -231,7 +231,7 @@ test_generator = test_gen.flow_from_dataframe(
     shuffle=False
 )
 
-# 予測
+# Predict
 predict = model.predict(test_generator, steps=np.ceil(nb_samples/batch_size))
 
 test_df['category'] = np.argmax(predict, axis=-1)
@@ -239,8 +239,8 @@ test_df
 
 label_map = dict((v, k) for k, v in train_generator.class_indices.items())
 test_df['category'] = test_df['category'].replace(label_map)
-test_df
 
+# VISUALIZE RESULT
 test_df['category'].value_counts().plot.bar()
 
 # Confusion matrix
@@ -281,33 +281,12 @@ def plot_confusion_matrix(cm, classes,
 confusion_mtx = confusion_matrix(test_df['label'], test_df['category'])
 plot_confusion_matrix(confusion_mtx, classes = range(7))
 
-# f1を使ってf1_scoreのマイクロ平均（モデルのaccuracy)を出す。
+# Caliculate F1 score(Accracy)
 from sklearn.metrics import f1_score
 point = f1_score(test_df['label'], test_df['category'], average='micro')
-# 分かりやすいように％に直す
+
+# Convert to Percentage
 print('accuracyは' + str(100 * point) + '%')
-
-label_map
-
-test_df['match'] = (test_df['label'] == test_df['category'])
-test_df['match'] = test_df['match'].astype(int)
-test_df
-
-import math
-missmatch_test = test_df[test_df['match']==0]
-missmatch_test = missmatch_test.reset_index()
-missmatch_test.head()
-fig_rowcount = math.ceil(missmatch_test.shape[0] / 3)
-plt.figure(figsize=(12, 24))
-for index, row in missmatch_test.iterrows():
-  filename = row['filename']
-  category = row['category']
-  img = load_img("./test_data/"+filename, target_size=IMAGE_SIZE)
-  plt.subplot(fig_rowcount, 3, index+1)
-  plt.imshow(img)
-  plt.xlabel(filename + '(' + "{}".format(category) + ')')
-plt.tight_layout()
-plt.show()Z
 
 # submission
 submission_df = test_df.copy()
