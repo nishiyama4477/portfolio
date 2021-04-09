@@ -8,6 +8,6 @@
 
 ## Web App calculate a distance between A and B by Latitude and Longitude
 
-緯度(Latitude)と経度を元にA地点とB地点の距離を求めるWeb App
+緯度(Latitude)と経度(Longitude)を元にA地点とB地点の距離を求めるWeb App
 
 使用した技術：　Python, HTML, Bootstrap, flask
