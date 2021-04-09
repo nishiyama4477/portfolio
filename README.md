@@ -10,4 +10,4 @@
 
 緯度(Latitude)と経度を元にA地点とB地点の距離を求めるWeb App
 
-使用した技術：　Python, HTML, Bootstrap, flas
+使用した技術：　Python, HTML, Bootstrap, flask
