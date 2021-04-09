@@ -17,14 +17,16 @@ Calculate_distance_by_lanlong
 │   │   base.html
 │   │   main.html
 │   
-└───main.py
+└───README.md
 │
-│　　README.md
+│───main.py
 ```
 
 |ファイル名|内容|
 |---------|----|
-|potatochips_image_classification.py|学習実行スクリプト|
+|base.html|ベースとなるHTML|
+|main.html|ユーザーの入力を受け取り表示するHTML|
+|main.py|実行スクリプト|
 
 ## 開発環境構築
 
