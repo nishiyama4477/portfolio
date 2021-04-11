@@ -27,7 +27,7 @@ def index():
         Along = form.Along.data
         Blat = form.Blat.data
         Blong = form.Blong.data
-        if Alat == Along == Blat == Blong:
+        if Alat == Along == Blat == Blong and Alat != 0 and Along != 0 and Blat != 0 and Blong != 0:
             session['A'] = Alat, Along
             session['B'] = Blat, Blong
             session['dis'] = str(0)
