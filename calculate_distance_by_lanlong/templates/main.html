@@ -1,11 +1,13 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
-{% block title %}Flasky{% endblock %}
 
 {% block page_content %}
 <div class="page-header">
-    {% if dis %}距離は{{dis}}です{% else %}数値を入力してください。{% endif %}
+    <h1>{% if dis %}AB間の距離は{{ dis }}km{% else %}距離を入力してください！{% endif %}!</h1>
+
 </div>
-{{ wtf.quick_form(form)}}
+{{ wtf.quick_form(form) }}
+<p>{{ moment(current_time).format('LLL') }}</p>
+<p>{{ moment(current_time).fromNow(refresh=True) }}</p>
 {% endblock %}
