@@ -1,3 +1,4 @@
+# Import packages
 % matplotlib
 inline
 import numpy as np
@@ -10,11 +11,13 @@ print("Azure ML SDK Version: ", azureml.core.VERSION)
 
 # %%
 
+# Connect to a workspace
 ws = Workspace.from_config()
 print(ws.name, ws.location, ws.resource_group, sep='\t')
 
 # %%
 
+# Create an experiment
 from azureml.core import Experiment
 
 experiment_name = 'Potato-chips-classification'
@@ -23,6 +26,7 @@ exp = Experiment(workspace=ws, name=experiment_name)
 
 # %%
 
+# Attach an existing compute target
 from azureml.core.compute import AmlCompute
 from azureml.core.compute import ComputeTarget
 import os
@@ -53,6 +57,7 @@ else:
 
 # %%
 
+# Create a directory
 import os
 
 data_folder = os.path.join(os.getcwd(), "data")
@@ -62,6 +67,8 @@ os.makedirs(script_folder, exist_ok=True)
 
 # %%
 
+
+# Download Dataset
 # azureml-core of version 1.0.72 or higher is required
 from azureml.core import Workspace, Dataset
 
@@ -79,6 +86,7 @@ dataset = Dataset.get_by_name(workspace, name='potatochips-data-dataset')
 
 % % writefile $script_folder / train.py
 
+# Create a training script
 import argparse
 import os
 import numpy as np
@@ -180,7 +188,6 @@ learning_rate_reduction = ReduceLROnPlateau(monitor=arg_monitor,
                                             factor=0.5,
                                             min_lr=0.00001)
 
-# callbacks = [earlystop, learning_rate_reduction]
 callbacks = [learning_rate_reduction]
 
 train_df, validate_df = train_test_split(df, test_size=0.20, random_state=42)
@@ -236,6 +243,7 @@ history = model.fit_generator(
     callbacks=callbacks
 )
 
+# create log
 run.log('optimizer', arg_optimizer)
 run.log('monitor', arg_monitor)
 run.log('batchsize', arg_batchsize)
@@ -268,7 +276,7 @@ import shutil
 shutil.copy('utils.py', script_folder)
 
 # %%
-
+# Configure the training job
 from azureml.core.environment import Environment
 from azureml.core.conda_dependencies import CondaDependencies
 
@@ -281,6 +289,7 @@ env.register(workspace=ws)
 
 # %%
 
+# Create random sampling for hyperpearameter tuning
 from azureml.train.hyperdrive import RandomParameterSampling
 from azureml.train.hyperdrive import choice, loguniform
 
@@ -294,6 +303,7 @@ param_sampling = RandomParameterSampling({
 
 # %%
 
+# Specify primary metric
 from azureml.train.hyperdrive import PrimaryMetricGoal
 
 primary_metric_name = "accuracy",
@@ -307,12 +317,14 @@ primary_metric_goal = PrimaryMetricGoal.MAXIMIZE
 
 # %%
 
+# BanditPolicy
 from azureml.train.hyperdrive import BanditPolicy
 
 early_termination_policy = BanditPolicy(slack_factor=0.1, evaluation_interval=1, delay_evaluation=5)
 
 # %%
 
+# Configure hyperparameter tuning
 from azureml.core import ScriptRunConfig
 
 args = ['--data-folder', dataset.as_mount()]
@@ -344,6 +356,7 @@ hyperdrive_run = experiment.submit(hd_config)
 
 # %%
 
+# Jupyter widget
 from azureml.widgets import RunDetails
 
 RunDetails(hyperdrive_run).show()
