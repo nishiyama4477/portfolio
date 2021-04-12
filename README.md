@@ -8,7 +8,7 @@
 
 ## Image Classification on Azure
 
-上記をAzure上で回した
+上記の転移学習ではないモデルをAzure上で回した
 
 使用した技術：　Python, Jupiter Notebook, Azure
 
