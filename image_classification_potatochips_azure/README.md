@@ -1,4 +1,4 @@
-# Machine Learning - Image Classification 7 potatochip's packages transfer learning Xception
+# Machine Learning - Image Classification 7 potatochip's packages
 
 KaggleのDogs vs Catsを元に7種類のポテトチップスを見分けるモデルの作成。transfer trainingは取り入れていない。
 
