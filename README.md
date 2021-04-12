@@ -6,6 +6,12 @@
 
 使用した技術：　Python, Google Colaboratory
 
+## Image Classification on Azure
+
+上記をAzure上で回した
+
+使用した技術：　Python, Jupiter Notebook, Azure
+
 ## Web App calculate a distance between A and B by Latitude and Longitude
 
 緯度(Latitude)と経度(Longitude)を元にA地点とB地点の距離を求めるWeb App
