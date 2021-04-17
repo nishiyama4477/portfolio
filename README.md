@@ -10,7 +10,7 @@
 
 上記の転移学習ではないモデルをAzure上で回した
 
-使用した技術：　Python, Jupiter Notebook, Azure
+使用した技術：　Python, Jupyter Notebook, Azure
 
 ## Web App calculate a distance between A and B by Latitude and Longitude
 
