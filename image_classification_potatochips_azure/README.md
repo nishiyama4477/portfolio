@@ -28,6 +28,6 @@ potatochips_image_classification_azure.ipynb
 
 ## 実行
 
-potatosihps_image_classification.ipynbをAzure上で実行して下さい
+potatosihps_image_classification_azure.ipynbをAzure上で実行して下さい
 
 ## 参考
