@@ -4,7 +4,7 @@ KaggleのDogs vs Catsを元に7種類のポテトチップスを見分けるモ�
 
 ## 実装している主な機能
 
-* Confusion Matrix
+* Azure machine learning 
 
 ## 環境
 
