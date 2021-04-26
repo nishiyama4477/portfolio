@@ -22,12 +22,12 @@ potatochips_image_classification_azure.ipynb
 
 |ファイル名|内容|
 |---------|----|
-|potatochips_image_classification_azure.ipynb|学習実行スクリプト|
+|image_classification_potatochips_azure.ipynb|学習実行スクリプト|
 
 ## 開発環境構築
 
 ## 実行
 
-potatosihps_image_classification_azure.ipynbをAzure上で実行して下さい
+image_classification_potatochips_azure.ipynbをAzure上で実行して下さい
 
 ## 参考
