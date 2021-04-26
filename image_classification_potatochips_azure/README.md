@@ -17,7 +17,7 @@ KaggleのDogs vs Catsを元に7種類のポテトチップスを見分けるモ�
 
 
 ```
-potatochips_image_classification_azure.ipynb
+image_classification_potatochips__azure.ipynb
 ```
 
 |ファイル名|内容|

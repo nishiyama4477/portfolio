@@ -18,18 +18,18 @@ KaggleのDogs vs Catsを元に7種類のポテトチップスを見分けるモ�
 
 
 ```
-potatochips_image_classification.ipynb
+image_classificationpotatochips_xception.ipynb
 ```
 
 |ファイル名|内容|
 |---------|----|
-|potatochips_image_classification.ipynb|学習実行スクリプト|
+|image_classificationpotatochips_xception.ipynb|学習実行スクリプト|
 
 ## 開発環境構築
 
 ## 実行
 
-potatosihps_image_classification.ipynbをGoogle Colaboratory などで実行して下さい
+image_classificationpotatosihps_xception.ipynbをGoogle Colaboratory などで実行して下さい
 
 ## 参考
 
