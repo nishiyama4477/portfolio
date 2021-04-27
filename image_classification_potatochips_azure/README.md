@@ -31,3 +31,6 @@ image_classification_potatochips__azure.ipynb
 image_classification_potatochips_azure.ipynbをAzure上で実行して下さい
 
 ## 参考
+
+[1]:https://docs.microsoft.com/en-us/azure/machine-learning/tutorial-train-models-with-aml
+[2]:https://docs.microsoft.com/en-us/azure/machine-learning/how-to-tune-hyperparameters
