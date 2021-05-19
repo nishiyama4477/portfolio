@@ -1,4 +1,4 @@
-# Calculate distance between A and B by lanitude and longitude
+# Calculate distance between A and B by latitude and longitude
 
 A地点の緯度・経度、B地点の緯度・経度から2点間の距離を求める
 
@@ -11,7 +11,7 @@ A地点の緯度・経度、B地点の緯度・経度から2点間の距離を�
 ## フォルダ構造
 
 ```
-Calculate_distance_by_lanlong
+Calculate_distance_by_latlong
 │
 └───templates
 │   │   base.html
